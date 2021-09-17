@@ -1,0 +1,10 @@
+language: node_js
+
+node_js:
+  # Latest stable Node.js release https://docs.travis-ci.com/user/languages/javascript-with-nodejs/#specifying-nodejs-versions
+  - node
+
+script:
+  - yarn prettier-check
+  - yarn test
+  - yarn build

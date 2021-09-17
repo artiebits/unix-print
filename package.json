@@ -1,0 +1,43 @@
+{
+  "name": "unix-print",
+  "version": "0.0.1",
+  "description": "Utility for Unix-like operating systems to print PDF files from Node.js and Electron",
+  "license": "MIT",
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artiebits/unix-print.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
+    "prettier-check": "prettier -c ./src",
+    "prepare": "yarn prettier-check && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/node": "^16.9.1",
+    "babel-jest": "^27.1.1",
+    "esbuild": "^0.12.26",
+    "husky": "^7.0.0",
+    "jest": "^27.1.1",
+    "prettier": "^2.4.0",
+    "pretty-quick": "^3.1.1"
+  },
+  "keywords": [
+    "pdf",
+    "printer",
+    "pdf-printer",
+    "zebra-printer",
+    "rollo-printer",
+    "node.js",
+    "electron",
+    "macos",
+    "linux"
+  ]
+}
