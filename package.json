@@ -21,6 +21,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-typescript": "^7.15.0",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.9.1",
     "babel-jest": "^27.1.1",
     "esbuild": "^0.12.26",
