@@ -13,7 +13,10 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
+    "build": "npm run build:clean && npm run build:esbuild && npm run build:declarations",
+    "build:clean": "rimraf build",
+    "build:esbuild": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
+    "build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outFile build/index.d.ts",
     "prettier-check": "prettier -c ./src",
     "prepare": "yarn prettier-check && npm run test && npm run build"
   },
@@ -28,7 +31,9 @@
     "husky": "^7.0.0",
     "jest": "^27.1.1",
     "prettier": "^2.4.0",
-    "pretty-quick": "^3.1.1"
+    "pretty-quick": "^3.1.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.4"
   },
   "keywords": [
     "pdf",
