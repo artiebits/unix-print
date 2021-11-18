@@ -4,6 +4,7 @@
   "description": "Utility for Unix-like operating systems to print PDF files from Node.js and Electron",
   "license": "MIT",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "files": [
     "build"
   ],
@@ -16,7 +17,7 @@
     "build": "npm run build:clean && npm run build:esbuild && npm run build:declarations",
     "build:clean": "rimraf build",
     "build:esbuild": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
-    "build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outFile build/index.d.ts",
+    "build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outDir build",
     "prettier-check": "prettier -c ./src",
     "prepare": "yarn prettier-check && npm run test && npm run build"
   },
