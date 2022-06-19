@@ -4,7 +4,9 @@ import parsePrinterDescription from "../utils/parse-printer-description";
 
 export default async function getDefaultPrinter(): Promise<Printer | null> {
   try {
-    const { stdout } = await execAsync("lpstat -d");
+    const { stdout } = await execAsync("lpstat -d", {
+      env: { LC_ALL: "en_US" },
+    });
     const printer = getPrinterName(stdout);
     if (!printer) return null;
     return {
@@ -22,6 +24,8 @@ function getPrinterName(output: string): string {
 }
 
 async function getPrinterDescription(printer: string): Promise<string> {
-  const { stdout } = await execAsync(`lpstat -lp ${printer}`);
+  const { stdout } = await execAsync(`lpstat -lp ${printer}`, {
+    env: { LC_ALL: "en_US" },
+  });
   return parsePrinterDescription(stdout);
 }

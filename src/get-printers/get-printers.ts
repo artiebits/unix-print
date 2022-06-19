@@ -4,7 +4,9 @@ import parsePrinterDescription from "../utils/parse-printer-description";
 
 export default async function getPrinters(): Promise<Printer[]> {
   try {
-    const { stdout } = await execAsync("lpstat -lp");
+    const { stdout } = await execAsync("lpstat -lp", {
+      env: { LC_ALL: "en_US" },
+    });
 
     const isThereAnyPrinter = stdout.match("printer");
     if (!isThereAnyPrinter) return [];

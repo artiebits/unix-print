@@ -21,5 +21,7 @@ export default async function print(
     options.forEach((arg) => args.push(arg));
   }
 
-  return execAsync(`lp ${args.join(" ")}`);
+  return execAsync(`lp ${args.join(" ")}`, {
+    env: { LC_ALL: "en_US" },
+  });
 }
