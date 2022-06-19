@@ -124,4 +124,4 @@ getDefaultPrinter().then(console.log);
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) for details.
