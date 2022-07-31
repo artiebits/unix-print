@@ -41,10 +41,16 @@ it("return a list of available printers", async () => {
     {
       printer: "Virtual_PDF_Printer",
       description: "Virtual PDF Printer",
+      status: "idle",
+      connection: "direct",
+      alerts: "none",
     },
     {
       printer: "Zebra",
       description: "Zebra Printer",
+      status: "idle",
+      connection: "direct",
+      alerts: "none",
     },
   ];
 

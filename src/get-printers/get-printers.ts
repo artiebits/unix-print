@@ -1,6 +1,6 @@
 import { Printer } from "../types";
 import execAsync from "../utils/exec-async";
-import parsePrinterDescription from "../utils/parse-printer-description";
+import parsePrinterAttribute from "../utils/parse-printer-attribute";
 
 export default async function getPrinters(): Promise<Printer[]> {
   try {
@@ -14,7 +14,10 @@ export default async function getPrinters(): Promise<Printer[]> {
       .filter((line: string) => line.trim().length)
       .map((line: string) => ({
         printer: line.substr(0, line.indexOf(" ")),
-        description: parsePrinterDescription(line),
+        status: line.split(/.*is\s(\w+)\..*/gm)[1],
+        description: parsePrinterAttribute(line, "Description"),
+        alerts: parsePrinterAttribute(line, "Alerts"),
+        connection: parsePrinterAttribute(line, "Connection"),
       }));
   } catch (error) {
     throw error;
