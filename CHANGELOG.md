@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/artiebits/unix-print/compare/v1.1.0...v1.1.1) (2022-08-03)
+
+
+### Bug Fixes
+
+* switch to node 17 ([#8](https://www.github.com/artiebits/unix-print/issues/8)) ([f9c8318](https://www.github.com/artiebits/unix-print/commit/f9c83186f7efa89e91800164273766a632287d90))
+
 ## [1.1.0](https://www.github.com/artiebits/unix-print/compare/v1.0.1...v1.1.0) (2021-11-19)
 
 

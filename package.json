@@ -1,6 +1,6 @@
 {
   "name": "unix-print",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Utility for Unix-like operating systems to print PDF files from Node.js and Electron",
   "license": "MIT",
   "main": "build/index.js",
