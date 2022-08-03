@@ -1,8 +1,7 @@
 language: node_js
 
 node_js:
-  # Latest stable Node.js release https://docs.travis-ci.com/user/languages/javascript-with-nodejs/#specifying-nodejs-versions
-  - node
+  - 17
 
 script:
   - yarn prettier-check
