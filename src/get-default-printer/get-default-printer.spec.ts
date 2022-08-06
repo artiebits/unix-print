@@ -35,6 +35,9 @@ it("returns the system default printer", async () => {
   const expected: Printer = {
     printer: "Virtual_PDF_Printer",
     description: "Virtual PDF Printer",
+    status: "idle",
+    connection: "direct",
+    alerts: "none",
   };
 
   await expect(getDefaultPrinter()).resolves.toEqual(expected);

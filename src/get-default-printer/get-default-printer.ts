@@ -1,6 +1,6 @@
 import { Printer } from "../types";
 import execAsync from "../utils/exec-async";
-import parsePrinterDescription from "../utils/parse-printer-description";
+import parsePrinterAttribute from "../utils/parse-printer-attribute";
 
 export default async function getDefaultPrinter(): Promise<Printer | null> {
   try {
@@ -9,10 +9,7 @@ export default async function getDefaultPrinter(): Promise<Printer | null> {
     });
     const printer = getPrinterName(stdout);
     if (!printer) return null;
-    return {
-      printer,
-      description: await getPrinterDescription(printer),
-    };
+    return await getPrinterData(printer);
   } catch (error) {
     throw error;
   }
@@ -23,9 +20,15 @@ function getPrinterName(output: string): string {
   return startIndex === -1 ? "" : output.substr(startIndex + 1).trim();
 }
 
-async function getPrinterDescription(printer: string): Promise<string> {
+async function getPrinterData(printer: string): Promise<Printer> {
   const { stdout } = await execAsync(`lpstat -lp ${printer}`, {
     env: { LC_ALL: "en_US" },
   });
-  return parsePrinterDescription(stdout);
+  return {
+    printer,
+    status: stdout.split(/.*is\s(\w+)\..*/gm)[1],
+    description: parsePrinterAttribute(stdout, "Description"),
+    alerts: parsePrinterAttribute(stdout, "Alerts"),
+    connection: parsePrinterAttribute(stdout, "Connection"),
+  };
 }
