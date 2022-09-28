@@ -33,7 +33,7 @@ it("sends the PDF file to the default printer", async () => {
 
   await print(filename);
 
-  expect(execAsync).toHaveBeenCalledWith(`lp ${filename}`);
+  expect(execAsync).toHaveBeenCalledWith(`lp '${filename}'`);
 });
 
 it("sends PDF file to the specific printer", async () => {
@@ -42,7 +42,7 @@ it("sends PDF file to the specific printer", async () => {
 
   await print(filename, printer);
 
-  expect(execAsync).toHaveBeenCalledWith(`lp ${filename} -d ${printer}`);
+  expect(execAsync).toHaveBeenCalledWith(`lp '${filename}' -d ${printer}`);
 });
 
 it("allows to pass other print options", async () => {
@@ -53,7 +53,7 @@ it("allows to pass other print options", async () => {
   await print(filename, printer, options);
 
   expect(execAsync).toHaveBeenCalledWith(
-    `lp ${filename} -d ${printer} -o landscape -o fit-to-page -o media=A4`
+    `lp '${filename}' -d ${printer} -o landscape -o fit-to-page -o media=A4`
   );
 });
 
@@ -64,7 +64,7 @@ it("allows to pass options but omit the printer name", async () => {
   await print(filename, undefined, options);
 
   expect(execAsync).toHaveBeenCalledWith(
-    `lp ${filename} -o landscape -o fit-to-page -o media=A4`
+    `lp '${filename}' -o landscape -o fit-to-page -o media=A4`
   );
 });
 
