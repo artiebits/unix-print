@@ -53,10 +53,10 @@ A function to print a file to a printer.
 
 **Arguments**
 
-| Argument |    Type    | Optional | Description                                                                                                                                                    |
-| -------- | :--------: | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| file     |  `string`  | Required | A file to print.                                                                                                                                               |
-| printer  |  `string`  | Optional | Print a file to the specific printer.                                                                                                                          |
+| Argument |    Type    | Optional | Description                                                             |
+| -------- | :--------: | -------- | ----------------------------------------------------------------------- |
+| file     |  `string`  | Required | A file to print.                                                        |
+| printer  |  `string`  | Optional | Print a file to the specific printer.                                   |
 | options  | `string[]` | Optional | Any option from [this list](https://www.computerhope.com/unix/ulp.htm). |
 
 **Returns**

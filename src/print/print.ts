@@ -9,7 +9,7 @@ export default async function print(
   if (!file) throw "No file specified";
   if (!fs.existsSync(file)) throw "No such file";
 
-  const args = [file];
+  const args = [`'${file}'`];
 
   if (printer) {
     args.push("-d", printer);
