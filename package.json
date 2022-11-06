@@ -1,50 +1,50 @@
 {
-	"name": "unix-print",
-	"version": "1.2.0",
-	"description": "Utility for Unix-like operating systems to print PDF files from Node.js and Electron",
-	"license": "MIT",
-	"main": "build/index.js",
-	"types": "build/index.d.ts",
-	"files": [
-		"build"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/artiebits/unix-print.git"
-	},
-	"scripts": {
-		"test": "jest",
-		"build": "npm run build:clean && npm run build:esbuild && npm run build:declarations",
-		"build:clean": "rimraf build",
-		"build:esbuild": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
-		"build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outDir build",
-		"prettier-check": "prettier -c ./src",
-		"prepare": "yarn prettier-check && npm run test && npm run build"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.15.5",
-		"@babel/preset-env": "^7.15.6",
-		"@babel/preset-typescript": "^7.15.0",
-		"@types/jest": "^27.0.2",
-		"@types/node": "^16.9.1",
-		"babel-jest": "^27.1.1",
-		"esbuild": "^0.12.26",
-		"husky": "^7.0.0",
-		"jest": "^27.1.1",
-		"prettier": "^2.4.0",
-		"pretty-quick": "^3.1.1",
-		"rimraf": "^3.0.2",
-		"typescript": "^4.4.4"
-	},
-	"keywords": [
-		"pdf",
-		"printer",
-		"pdf-printer",
-		"zebra-printer",
-		"rollo-printer",
-		"node.js",
-		"electron",
-		"macos",
-		"linux"
-	]
+  "name": "unix-print",
+  "version": "1.2.0",
+  "description": "Utility for Unix-like operating systems to print PDF files from Node.js and Electron",
+  "license": "MIT",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artiebits/unix-print.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "npm run build:clean && npm run build:esbuild && npm run build:declarations",
+    "build:clean": "rimraf build",
+    "build:esbuild": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
+    "build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outDir build",
+    "prettier-check": "prettier -c ./src",
+    "prepare": "yarn prettier-check && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.9.1",
+    "babel-jest": "^27.1.1",
+    "esbuild": "^0.12.26",
+    "husky": "^7.0.0",
+    "jest": "^27.1.1",
+    "prettier": "^2.4.0",
+    "pretty-quick": "^3.1.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.4"
+  },
+  "keywords": [
+    "pdf",
+    "printer",
+    "pdf-printer",
+    "zebra-printer",
+    "rollo-printer",
+    "node.js",
+    "electron",
+    "macos",
+    "linux"
+  ]
 }
