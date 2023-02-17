@@ -22,7 +22,7 @@ export default async function print(
 		options.forEach((arg) => args.push(arg));
 	}
 
-	const printResponse = await execAsync(`lp ${args.join(" ")}`);
+	const {stdout: printResponse} = await execAsync(`lp ${args.join(" ")}`);
 	const jobId = getJobId(printResponse);
 
 	return jobId;

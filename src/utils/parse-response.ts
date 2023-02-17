@@ -3,8 +3,17 @@ import execAsync from "./exec-async";
 
 export const getJobId = (printResponse = "") => {
 	if (printResponse) {
-		const response = JSON.parse(printResponse);
-		return Number(response.st);
+		// expects the stdout response from lp: 'request id is myDummyPrinter-4 (1 file(s))'
+		const splitHyphen = printResponse.split("-");
+		console.log(JSON.stringify(splitHyphen));
+		const jobIdString = splitHyphen[1].split(" ")[0];
+
+		try {
+			const jobId = Number(jobIdString);
+			return jobId;
+		} catch (err) {
+			return -1;
+		}
 	}
 
 	return -1;
@@ -14,6 +23,8 @@ export const getJobId = (printResponse = "") => {
 // Queue  Dev      Status      Job    Files      User      PP      %      Blks      CP      Rnk
 // lp0    dlp0     running     39     motd       guest     10      83      12        1       1
 export const isPrintComplete = async (jobId: number, printer?: string) => {
+	if (jobId === -1) return false;
+
 	const args: string[] = new Array();
 	let printerToQuery = printer || (await getDefaultPrinter())?.printer || "";
 

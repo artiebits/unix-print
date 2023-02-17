@@ -9,7 +9,7 @@ jest.mock("../utils/exec-async");
 beforeEach(() => {
   // override the implementations
   existsSync.mockImplementation(() => true);
-  execAsync.mockImplementation(() => Promise.resolve());
+  execAsync.mockImplementation(() => Promise.resolve({stdout: "request id is myDummyPrinter-15 (1 file(s))"}));
 });
 
 afterEach(() => {
