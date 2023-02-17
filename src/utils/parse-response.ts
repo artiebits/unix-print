@@ -4,11 +4,10 @@ import execAsync from "./exec-async";
 export const getJobId = (printResponse = "") => {
 	if (printResponse) {
 		// expects the stdout response from lp: 'request id is myDummyPrinter-4 (1 file(s))'
-		const splitHyphen = printResponse.split("-");
-		console.log(JSON.stringify(splitHyphen));
-		const jobIdString = splitHyphen[1].split(" ")[0];
-
 		try {
+			const splitHyphen = printResponse.split("-");
+			const jobIdString = splitHyphen[1].split(" ")[0];
+
 			const jobId = Number(jobIdString);
 			return jobId;
 		} catch (err) {

@@ -20,6 +20,14 @@ describe("getJobId", () => {
 		expect(getJobId(response)).toEqual(expected);
 	});
 
+	it("returns -1 on weird input", async () => {
+		const response =
+			"printer is offline or something / manually passing in stuff";
+		const expected = -1;
+
+		expect(getJobId(response)).toEqual(expected);
+	});
+
 	it("returns -1 when response is empty", async () => {
 		const response = "";
 		const expected = -1;
