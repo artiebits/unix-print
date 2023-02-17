@@ -15,101 +15,101 @@ Virtual_PDF_Printer\tdlp0\trunning\t39\tmotd\tguest\t10\t83\t12\t1\t1
 `;
 
 const defaultPrinter: Printer = {
-	printer: "Virtual_PDF_Printer",
-	description: "Virtual PDF Printer",
-	status: "idle",
-	connection: "direct",
-	alerts: "none",
+    printer: "Virtual_PDF_Printer",
+    description: "Virtual PDF Printer",
+    status: "idle",
+    connection: "direct",
+    alerts: "none",
 };
 
 beforeEach(() => {
-	getDefaultPrinter.mockImplementation(() => Promise.resolve(defaultPrinter));
+    getDefaultPrinter.mockImplementation(() => Promise.resolve(defaultPrinter));
 });
 
 afterEach(() => {
-	// restore the original implementation.
-	execAsync.mockRestore();
+    // restore the original implementation.
+    execAsync.mockRestore();
 });
 
 describe("getJobId", () => {
-	it("returns the job id", async () => {
-		const response = "request id is myDummyPrinter-15 (1 file(s))";
-		const expected = 15;
+    it("returns the job id", async () => {
+        const response = "request id is myDummyPrinter-15 (1 file(s))";
+        const expected = 15;
 
-		expect(getJobId(response)).toEqual(expected);
-	});
+        expect(getJobId(response)).toEqual(expected);
+    });
 
-	it("returns -1 on weird input", async () => {
-		const response = "printer is offline or something/manually passing stuff";
-		const expected = -1;
+    it("returns -1 on weird input", async () => {
+        const response = "printer is offline or something/manually passing stuff";
+        const expected = -1;
 
-		expect(getJobId(response)).toEqual(expected);
-	});
+        expect(getJobId(response)).toEqual(expected);
+    });
 
-	it("returns -1 when response is empty", async () => {
-		const response = "";
-		const expected = -1;
+    it("returns -1 when response is empty", async () => {
+        const response = "";
+        const expected = -1;
 
-		expect(getJobId(response)).toEqual(expected);
-	});
+        expect(getJobId(response)).toEqual(expected);
+    });
 });
 
 describe("isPrintComplete", () => {
-	it("job is still on the queue / default printer", async () => {
-		const queuedJobId = 39;
-		execAsync.mockImplementationOnce(() => Promise.resolve(defQueuedStdout));
+    it("job is still on the queue / default printer", async () => {
+        const queuedJobId = 39;
+        execAsync.mockImplementationOnce(() => Promise.resolve(defQueuedStdout));
 
-		const result = isPrintComplete(queuedJobId);
+        const result = isPrintComplete(queuedJobId);
 
-		await expect(result).resolves.toEqual(false);
-		expect(execAsync).toBeCalledWith(`lpstat -o ${defaultPrinter.printer}`);
-	});
+        await expect(result).resolves.toEqual(false);
+        expect(execAsync).toBeCalledWith(`lpstat -o ${defaultPrinter.printer}`);
+    });
 
-	it("job is still on the queue / defined printer", async () => {
-		const queuedJobId = 39;
-		execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
+    it("job is still on the queue / defined printer", async () => {
+        const queuedJobId = 39;
+        execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
 
-		const result = isPrintComplete(queuedJobId, "lp0");
+        const result = isPrintComplete(queuedJobId, "lp0");
 
-		await expect(result).resolves.toEqual(false);
-		expect(execAsync).toBeCalledWith(`lpstat -o lp0`);
-	});
+        await expect(result).resolves.toEqual(false);
+        expect(execAsync).toBeCalledWith(`lpstat -o lp0`);
+    });
 
-	it("job is still on the queue / no default or defined printer ", async () => {
-		const queuedJobId = 39;
-		getDefaultPrinter.mockImplementation(() => Promise.resolve(null));
-		execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
+    it("job is still on the queue / no default or defined printer ", async () => {
+        const queuedJobId = 39;
+        getDefaultPrinter.mockImplementation(() => Promise.resolve(null));
+        execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
 
-		const result = isPrintComplete(queuedJobId);
+        const result = isPrintComplete(queuedJobId);
 
-		await expect(result).resolves.toEqual(false);
-		expect(execAsync).toBeCalledWith("lpstat ");
-	});
+        await expect(result).resolves.toEqual(false);
+        expect(execAsync).toBeCalledWith("lpstat ");
+    });
 
-	it("job is not on the queue", async () => {
-		const queuedJobId = 5;
-		execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
+    it("job is not on the queue", async () => {
+        const queuedJobId = 5;
+        execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
 
-		const result = isPrintComplete(queuedJobId);
+        const result = isPrintComplete(queuedJobId);
 
-		await expect(result).resolves.toEqual(true);
-	});
+        await expect(result).resolves.toEqual(true);
+    });
 
-	it("nothing on the queue", async () => {
-		const queuedJobId = 5;
-		execAsync.mockImplementationOnce(() => Promise.resolve("\n"));
+    it("nothing on the queue", async () => {
+        const queuedJobId = 5;
+        execAsync.mockImplementationOnce(() => Promise.resolve("\n"));
 
-		const result = isPrintComplete(queuedJobId);
+        const result = isPrintComplete(queuedJobId);
 
-		await expect(result).resolves.toEqual(true);
-	});
+        await expect(result).resolves.toEqual(true);
+    });
 
-	it("getJobId didn't work", async () => {
-		const queuedJobId = -1;
-		execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
+    it("getJobId didn't work", async () => {
+        const queuedJobId = -1;
+        execAsync.mockImplementationOnce(() => Promise.resolve(queuedStdout));
 
-		const result = isPrintComplete(queuedJobId);
+        const result = isPrintComplete(queuedJobId);
 
-		await expect(result).resolves.toEqual(false);
-	});
+        await expect(result).resolves.toEqual(false);
+    });
 });
