@@ -37,14 +37,18 @@ export const isPrintComplete = async (jobId: number, printer?: string) => {
 		return false;
 	}
 
-	const statLines = stat.split("\n");
-	// skip the header
-	for (let i = 1; i < statLines.length; i++) {
-		const columns = statLines[i].split("\t");
-		if (columns[0].includes(printerToQuery) && Number(columns[3]) === jobId) {
-			return false; // still printing if on the queue
+	try {
+		const statLines = stat.split("\n");
+		// skip the header
+		for (let i = 1; i < statLines.length; i++) {
+			const columns = statLines[i].split("\t");
+			if (columns[0].includes(printerToQuery) && Number(columns[3]) === jobId) {
+				return false; // still printing if on the queue
+			}
 		}
-	}
 
-	return true;
+		return true;
+	} catch (err) {
+		return true;
+	}
 };
