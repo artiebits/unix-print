@@ -18,8 +18,8 @@
     "build:clean": "rimraf build",
     "build:esbuild": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
     "build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outDir build",
-    "prettier-check": "prettier -c ./src",
-    "prepare": "npm prettier-check && npm run test && npm run build"
+    "prettier-check": "prettier -c ./",
+    "prepare": "npm run test && npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -29,7 +29,7 @@
     "@types/node": "^16.9.1",
     "babel-jest": "^27.1.1",
     "esbuild": "^0.12.26",
-    "husky": "^7.0.0",
+    "husky": "^8.0.0",
     "jest": "^27.1.1",
     "prettier": "^2.4.0",
     "pretty-quick": "^3.1.1",
