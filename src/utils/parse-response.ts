@@ -5,8 +5,7 @@ export const getJobId = (printResponse = "") => {
     if (printResponse) {
         // expects the stdout response from lp: 'request id is myDummyPrinter-4 (1 file(s))'
         try {
-            const splitHyphen = printResponse.split("-");
-            const jobIdString = splitHyphen[1].split(" ")[0];
+            const jobIdString = printResponse.split("-")[1].split(" ")[0];
 
             const jobId = Number(jobIdString);
             return jobId;
@@ -24,8 +23,8 @@ export const getJobId = (printResponse = "") => {
 export const isPrintComplete = async (jobId: number, printer?: string) => {
     if (jobId === -1) return false;
 
-    const args: string[] = new Array();
-    let printerToQuery = printer || (await getDefaultPrinter())?.printer || "";
+    const args = new Array<string>();
+    const printerToQuery = printer || (await getDefaultPrinter())?.printer || "";
 
     if (printerToQuery) {
         args.push("-o", printerToQuery);
