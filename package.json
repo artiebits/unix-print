@@ -19,7 +19,7 @@
     "build:esbuild": "esbuild ./src --bundle --platform=node --outfile=build/index.js",
     "build:declarations": "tsc -p tsconfig.dist.json --emitDeclarationOnly --outDir build",
     "prettier-check": "prettier -c ./src",
-    "prepare": "yarn prettier-check && npm run test && npm run build"
+    "prepare": "npm prettier-check && npm run test && npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
