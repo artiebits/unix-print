@@ -18,10 +18,10 @@ const getRequestId = (printResponse: ExecResponse) => {
 };
 
 const splitRequestId = (requestId: string) => {
-    const splitByHyphen = requestId!.split("-");
+    const splitByHyphen = requestId.split("-");
     const jobId = splitByHyphen[splitByHyphen.length -1]
 
-    const printer = requestId!.slice(0, requestId!.length - (jobId.length + 1)); // substring only the name and exclude the jobId + the hyphen
+    const printer = requestId.slice(0, requestId.length - (jobId.length + 1)); // substring only the name and exclude the jobId + the hyphen
 
     return {jobId, printer}
 }
