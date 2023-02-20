@@ -1,33 +1,43 @@
-import getDefaultPrinter from "../get-default-printer/get-default-printer";
+import {ExecResponse} from "../types";
 import execAsync from "./exec-async";
 
-export const getJobId = (printResponse = "") => {
-    if (printResponse) {
-        // expects the stdout response from lp: 'request id is myDummyPrinter-4 (1 file(s))'
+const getRequestId = (printResponse: ExecResponse) => {
+    const res = printResponse.stdout;
+    if (res) {
+        // expects the stdout response from lp: 'request id is my-Dummy-Printer-4 (1 file(s))'
         try {
-            const jobIdString = printResponse.split("-")[1].split(" ")[0];
+            const requestId = res.split(" ")[3];
 
-            const jobId = Number(jobIdString);
-            return jobId;
+            return requestId;
         } catch (err) {
-            return -1;
+            return null;
         }
     }
 
-    return -1;
+    return null;
 };
+
+const splitRequestId = (requestId: string) => {
+    const splitByHyphen = requestId!.split("-");
+    const jobId = splitByHyphen[splitByHyphen.length -1]
+
+    const printer = requestId!.slice(0, requestId!.length - (jobId.length + 1)); // substring only the name and exclude the jobId + the hyphen
+
+    return {jobId, printer}
+}
 
 // sample response of running jobs of printer called "lp0": lpstat -o lp0
 // Queue  Dev      Status      Job    Files      User      PP      %      Blks      CP      Rnk
 // lp0    dlp0     running     39     motd       guest     10      83      12        1       1
-export const isPrintComplete = async (jobId: number, printer?: string) => {
-    if (jobId === -1) return false;
+export const isPrintComplete = async (printResponse: ExecResponse) => {
+
+    const requestId = getRequestId(printResponse);
+    if (!requestId) return false;
 
     const args = new Array<string>();
-    const printerToQuery = printer || (await getDefaultPrinter())?.printer || "";
-
-    if (printerToQuery) {
-        args.push("-o", printerToQuery);
+    const {jobId, printer} = splitRequestId(requestId);
+    if (printer) {
+        args.push("-o", printer);
     }
 
     const stat = await execAsync(`lpstat ${args.join(" ")}`);
@@ -42,7 +52,7 @@ export const isPrintComplete = async (jobId: number, printer?: string) => {
         for (let i = 1; i < statLines.length; i++) {
             const columns = statLines[i].split("\t");
 
-            if (columns[0].includes(printerToQuery) && Number(columns[3]) === jobId) {
+            if (columns[0].includes(printer) && columns[3] === jobId) {
                 return false; // still printing if on the queue
             }
         }

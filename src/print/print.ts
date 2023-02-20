@@ -1,6 +1,5 @@
 import fs from "fs";
 import execAsync from "../utils/exec-async";
-import { getJobId } from "../utils/parse-response";
 
 export default async function print(
   file: string,
@@ -22,8 +21,5 @@ export default async function print(
     options.forEach((arg) => args.push(arg));
   }
 
-  const {stdout: printResponse} = await execAsync(`lp ${args.join(" ")}`);
-  const jobId = getJobId(printResponse);	
-
-  return jobId;
+  return await execAsync(`lp ${args.join(" ")}`);
 }
