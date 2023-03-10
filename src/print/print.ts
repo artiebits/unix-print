@@ -1,11 +1,12 @@
 import fs from "fs";
+import { ExecResponse } from "../types";
 import execAsync from "../utils/exec-async";
 
 export default async function print(
   file: string,
   printer?: string,
   options?: string[]
-) {
+): Promise<ExecResponse> {
   if (!file) throw "No file specified";
   if (!fs.existsSync(file)) throw "No such file";
 
@@ -21,5 +22,5 @@ export default async function print(
     options.forEach((arg) => args.push(arg));
   }
 
-  return await execAsync(`lp ${args.join(" ")}`);
+  return execAsync(`lp ${args.join(" ")}`);
 }

@@ -1,14 +1,13 @@
 import { ExecResponse } from "../types";
 import execAsync from "./exec-async";
 
-const getRequestId = (printResponse: ExecResponse) => {
+export function getRequestId(printResponse: ExecResponse) {
   const res = printResponse.stdout;
   if (res) {
-    // expects the stdout response from lp: 'request id is my-Dummy-Printer-4 (1 file(s))'
     try {
       const requestId = res.split(" ")[3];
 
-      return requestId;
+      return printerNameRegex.test(requestId) ? requestId : null;
     } catch (err) {
       return null;
     }
@@ -26,10 +25,7 @@ const splitRequestId = (requestId: string) => {
   return { jobId, printer };
 };
 
-// sample response of running jobs of printer called "lp0": lpstat -o lp0
-// Queue  Dev      Status      Job    Files      User      PP      %      Blks      CP      Rnk
-// lp0    dlp0     running     39     motd       guest     10      83      12        1       1
-export const isPrintComplete = async (printResponse: ExecResponse) => {
+async function isPrintComplete(printResponse: ExecResponse) {
   const requestId = getRequestId(printResponse);
   if (!requestId) return false;
 
@@ -61,3 +57,7 @@ export const isPrintComplete = async (printResponse: ExecResponse) => {
     return true;
   }
 };
+
+const printerNameRegex = /^[\w\.\/_@.\/@#$&+-]+-[0-9]+$/;
+
+export default isPrintComplete;
