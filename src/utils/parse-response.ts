@@ -6,24 +6,22 @@ async function isPrintComplete(printResponse: ExecResponse) {
   if (!requestId) return false;
 
   const args = new Array<string>();
-  const { jobId, printer } = splitRequestId(requestId);
+  const { printer } = splitRequestId(requestId);
   if (printer) {
     args.push("-o", printer);
   }
 
-  const stat = await execAsync(`lpstat ${args.join(" ")}`);
+  const { stdout } = await execAsync(`lpstat ${args.join(" ")}`);
 
-  if (!stat) {
+  if (!stdout) {
     return false;
   }
 
   try {
-    const statLines = stat.split("\n");
+    const lines = stdout.split("\n");
     // skip the header
-    for (let i = 1; i < statLines.length; i++) {
-      const columns = statLines[i].split("\t");
-
-      if (columns[0].includes(printer) && columns[3] === jobId) {
+    for (let i = 1; i < lines.length; i++) {
+      if (lines[i].includes(requestId)) {
         return false; // still printing if on the queue
       }
     }
