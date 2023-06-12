@@ -3,7 +3,9 @@ import execAsync from "./exec-async";
 
 async function isPrintComplete(printResponse: ExecResponse) {
   const requestId = getRequestId(printResponse);
-  if (!requestId) return false;
+  if (!requestId) {
+    return false;
+  }
 
   const args = new Array<string>();
   const { printer } = splitRequestId(requestId);
@@ -14,13 +16,12 @@ async function isPrintComplete(printResponse: ExecResponse) {
   const { stdout } = await execAsync(`lpstat ${args.join(" ")}`);
 
   if (!stdout) {
-    return false;
+    return true;
   }
 
   try {
     const lines = stdout.split("\n");
-    // skip the header
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = 0; i < lines.length; i++) {
       if (lines[i].includes(requestId)) {
         return false; // still printing if on the queue
       }
@@ -31,7 +32,6 @@ async function isPrintComplete(printResponse: ExecResponse) {
     return true;
   }
 };
-
 
 export function getRequestId(printResponse: ExecResponse) {
   const res = printResponse.stdout;
