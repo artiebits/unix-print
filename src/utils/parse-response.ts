@@ -31,7 +31,7 @@ async function isPrintComplete(printResponse: ExecResponse) {
   } catch (err) {
     return true;
   }
-};
+}
 
 export function getRequestId(printResponse: ExecResponse) {
   const res = printResponse.stdout;
@@ -46,16 +46,16 @@ export function getRequestId(printResponse: ExecResponse) {
   }
 
   return null;
-};
+}
 
-const splitRequestId = (requestId: string) => {
+function splitRequestId(requestId: string) {
   const splitByHyphen = requestId.split("-");
   const jobId = splitByHyphen[splitByHyphen.length - 1];
 
   const printer = requestId.slice(0, requestId.length - (jobId.length + 1)); // substring only the name and exclude the jobId + the hyphen
 
   return { jobId, printer };
-};
+}
 
 const printerNameRegex = /^[\w\.\/_@.\/@#$&+-]+-[0-9]+$/;
 
