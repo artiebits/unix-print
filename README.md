@@ -14,7 +14,8 @@ A utility for Unix-like operating systems to print files from Node.js and Electr
   - [Basic Usage](#basic-usage)
   - [Installation](#installation)
   - [API](#api)
-    - [`print(pdf, printer, options) => Promise<void>`](#printpdf-printer-options--promisevoid)
+    - [`print(pdf, printer, options) => Promise<{stdout, stderr}>`](#printpdf-printer-options--promisevoid)
+    - [`isPrintComplete(printResponse) => Promise<boolean>`](#isprintcompleteprintresponse--promiseboolean)
     - [`getPrinters() => Promise<Printer[]>`](#getprinters--promiseprinter)
     - [`getDefaultPrinter() => Promise<Printer | null>`](#getdefaultprinter--promiseprinter--null)
   - [License](#license)
@@ -61,7 +62,7 @@ A function to print a file to a printer.
 
 **Returns**
 
-`Promise<void>`.
+`Promise<{stdout: string | null, stderr: string | null}>`.
 
 To print a file to the default printer:
 
@@ -92,6 +93,33 @@ const printer = undefined;
 const options = ["-o landscape", "-o fit-to-page", "-o media=A4"];
 
 print("assets/file.jpg", printer, options).then(console.log);
+```
+
+### `isPrintComplete(printResponse) => Promise<boolean>`
+
+**Arguments**
+
+| Argument      |                   Type                    | Optional | Description                    |
+| ------------- | :---------------------------------------: | -------- | ------------------------------ |
+| printResponse | <code>{stdout: string &#124; null}</code> | Required | Promise returned from [`print`](#printpdf-printer-options--promisevoid). |
+
+**Returns**
+
+`Promise<boolean>`: False if the job is on the queue or `stdout` is null, true otherwise.
+
+**Examples**
+
+```javascript
+import { isComplete } from 'unix-print';
+
+const fileToPrint = 'assets/file.pdf';
+const printJob = print(fileToPrint);
+
+for (let i = 0; i < 10; i++) {
+  if (await isPrintComplete(printJob)) {
+    console.log('Job complete');
+  }
+}
 ```
 
 ### `getPrinters() => Promise<Printer[]>`
