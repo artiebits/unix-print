@@ -115,11 +115,15 @@ import { isComplete } from 'unix-print';
 const fileToPrint = 'assets/file.pdf';
 const printJob = print(fileToPrint);
 
-for (let i = 0; i < 10; i++) {
-  if (await isPrintComplete(printJob)) {
-    console.log('Job complete');
+async function waitForPrintCompletion(printJob) {
+  while (!await isPrintComplete(printJob)) {
+    // Wait a bit before checking again (to avoid constant checks)
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
   }
+  console.log('Job complete');
 }
+
+await waitForPrintCompletion(printJob);
 ```
 
 ### `getPrinters() => Promise<Printer[]>`
