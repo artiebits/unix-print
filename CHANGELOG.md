@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/artiebits/unix-print/compare/v1.2.0...v1.3.0) (2023-08-22)
+
+
+### Features
+
+* add isComplete function ([#13](https://www.github.com/artiebits/unix-print/issues/13)) ([72ce461](https://www.github.com/artiebits/unix-print/commit/72ce461112cf39e846be5d2af050489a156acf52))
+
 ## [1.2.0](https://www.github.com/artiebits/unix-print/compare/v1.1.0...v1.2.0) (2022-08-06)
 
 ### Features
