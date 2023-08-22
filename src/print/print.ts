@@ -1,11 +1,12 @@
 import fs from "fs";
+import { ExecResponse } from "../types";
 import execAsync from "../utils/exec-async";
 
 export default async function print(
   file: string,
   printer?: string,
   options?: string[]
-): Promise<void> {
+): Promise<ExecResponse> {
   if (!file) throw "No file specified";
   if (!fs.existsSync(file)) throw "No such file";
 
