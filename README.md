@@ -110,7 +110,7 @@ print("assets/file.jpg", printer, options).then(console.log);
 **Examples**
 
 ```javascript
-import { isComplete } from 'unix-print';
+import { isPrintComplete } from 'unix-print';
 
 const fileToPrint = 'assets/file.pdf';
 const printJob = print(fileToPrint);
