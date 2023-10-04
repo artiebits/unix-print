@@ -101,7 +101,7 @@ print("assets/file.jpg", printer, options).then(console.log);
 
 | Argument      |                   Type                    | Optional | Description                    |
 | ------------- | :---------------------------------------: | -------- | ------------------------------ |
-| printResponse | <code>{stdout: string &#124; null}</code> | Required | Promise returned from [`print`](#printpdf-printer-options--promisevoid). |
+| printResponse | <code>{stdout: string &#124; null}</code> | Required | Resolved promise returned from [`print`](#printpdf-printer-options--promisevoid). |
 
 **Returns**
 
@@ -113,7 +113,7 @@ print("assets/file.jpg", printer, options).then(console.log);
 import { isPrintComplete } from 'unix-print';
 
 const fileToPrint = 'assets/file.pdf';
-const printJob = print(fileToPrint);
+const printJob = await print(fileToPrint);
 
 async function waitForPrintCompletion(printJob) {
   while (!await isPrintComplete(printJob)) {
