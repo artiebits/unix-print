@@ -19,7 +19,7 @@ function getPrinterName(output: string): string {
 }
 
 async function getPrinterData(printer: string): Promise<Printer> {
-  const { stdout } = await execAsync(`lpstat -lp ${printer}`);
+  const { stdout } = await execAsync(`SOFTWARE= LANG=C lpstat -lp ${printer}`);
   return {
     printer,
     status: stdout.split(/.*is\s(\w+)\..*/gm)[1],
