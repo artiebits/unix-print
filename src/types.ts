@@ -7,6 +7,6 @@ export interface Printer {
 }
 
 export interface ExecResponse {
-  stdout: string | null;
-  stderr: string | null;
+  stdout: string;
+  stderr: string;
 }
