@@ -1,7 +1,21 @@
 "use strict";
 
-const { exec } = require("child_process");
-const util = require("util");
-const execAsync = util.promisify(exec);
+import { ExecResponse } from "../types";
+import { exec } from "child_process";
 
-export default execAsync;
+export default function execAsync(cmd: string): Promise<ExecResponse> {
+    return new Promise((resolve, reject) => {
+        exec(cmd, {
+            env: {
+                SOFTWARE: "",
+                LANG: "C"
+            }
+        }, (err, stdout, stderr) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({stdout, stderr});
+            }
+        });
+    });
+}
