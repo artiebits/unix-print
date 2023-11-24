@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.2](https://www.github.com/artiebits/unix-print/compare/v1.3.1...v1.3.2) (2023-11-24)
+
+
+### Bug Fixes
+
+* parsing for non-english systems, part 2 ([#26](https://www.github.com/artiebits/unix-print/issues/26)) ([c8965ce](https://www.github.com/artiebits/unix-print/commit/c8965ce4c524ce5d74872c726e87a0c0577ab878))
+
 ### [1.3.1](https://www.github.com/artiebits/unix-print/compare/v1.3.0...v1.3.1) (2023-11-07)
 
 
