@@ -1,5 +1,5 @@
 import getDefaultPrinter from "./get-default-printer";
-import execAsync from "../utils/exec-async";
+import { execFileAsync } from "../utils/exec-async";
 import { Printer } from "../types";
 
 jest.mock("../utils/exec-async");
@@ -20,11 +20,11 @@ Interface: /etc/cups/ppd/Virtual_PDF_Printer.ppd
 
 afterEach(() => {
   // restore the original implementation.
-  execAsync.mockRestore();
+  execFileAsync.mockRestore();
 });
 
 it("returns the system default printer", async () => {
-  execAsync
+  execFileAsync
     .mockImplementationOnce(() =>
       Promise.resolve({ stdout: defaultPrinterStdout })
     )
@@ -41,11 +41,11 @@ it("returns the system default printer", async () => {
   };
 
   await expect(getDefaultPrinter()).resolves.toEqual(expected);
-  await expect(execAsync).toBeCalledWith("lpstat -d");
+  await expect(execFileAsync).toBeCalledWith("lpstat", ["-d"]);
 });
 
 it("returns null when the default printer is not defined", async () => {
-  execAsync.mockImplementation(() =>
+  execFileAsync.mockImplementation(() =>
     Promise.resolve({ stdout: "no system default destination" })
   );
 
@@ -53,6 +53,6 @@ it("returns null when the default printer is not defined", async () => {
 });
 
 it("fails with an error", async () => {
-  execAsync.mockImplementation(() => Promise.reject("error"));
+  execFileAsync.mockImplementation(() => Promise.reject("error"));
   await expect(getDefaultPrinter()).rejects.toMatch("error");
 });

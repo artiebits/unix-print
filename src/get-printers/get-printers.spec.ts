@@ -1,5 +1,5 @@
 import getPrinters from "./get-printers";
-import execAsync from "../utils/exec-async";
+import { execFileAsync } from "../utils/exec-async";
 import { Printer } from "../types";
 
 jest.mock("../utils/exec-async");
@@ -31,11 +31,11 @@ After fault: continue
 
 afterEach(() => {
   // restore the original implementation.
-  execAsync.mockRestore();
+  execFileAsync.mockRestore();
 });
 
 it("return a list of available printers", async () => {
-  execAsync.mockImplementation(() => Promise.resolve({ stdout }));
+  execFileAsync.mockImplementation(() => Promise.resolve({ stdout }));
 
   const expected: Printer[] = [
     {
@@ -58,7 +58,7 @@ it("return a list of available printers", async () => {
 });
 
 it("return an empty list when there are no printers installed.", async () => {
-  execAsync.mockImplementation(() =>
+  execFileAsync.mockImplementation(() =>
     Promise.resolve({ stdout: "lpstat: No destinations added." })
   );
 
@@ -66,6 +66,6 @@ it("return an empty list when there are no printers installed.", async () => {
 });
 
 it("fails with an error", async () => {
-  execAsync.mockImplementation(() => Promise.reject("error"));
+  execFileAsync.mockImplementation(() => Promise.reject("error"));
   await expect(getPrinters()).rejects.toMatch("error");
 });

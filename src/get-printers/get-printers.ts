@@ -1,10 +1,10 @@
 import { Printer } from "../types";
-import execAsync from "../utils/exec-async";
+import { execFileAsync } from "../utils/exec-async";
 import parsePrinterAttribute from "../utils/parse-printer-attribute";
 
 export default async function getPrinters(): Promise<Printer[]> {
   try {
-    const { stdout } = await execAsync("lpstat -lp");
+    const { stdout } = await execFileAsync("lpstat", ["-lp"]);
 
     const isThereAnyPrinter = stdout.match("printer");
     if (!isThereAnyPrinter) return [];

@@ -1,5 +1,5 @@
 import { ExecResponse } from "../types";
-import execAsync from "./exec-async";
+import { execFileAsync } from "./exec-async";
 
 async function isPrintComplete(printResponse: ExecResponse) {
   const requestId = getRequestId(printResponse);
@@ -7,13 +7,13 @@ async function isPrintComplete(printResponse: ExecResponse) {
     return false;
   }
 
-  const args = new Array<string>();
+  const args: string[] = [];
   const { printer } = splitRequestId(requestId);
   if (printer) {
     args.push("-o", printer);
   }
 
-  const { stdout } = await execAsync(`lpstat ${args.join(" ")}`);
+  const { stdout } = await execFileAsync("lpstat", args);
 
   if (!stdout) {
     return true;

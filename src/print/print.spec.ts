@@ -1,5 +1,5 @@
 import { existsSync } from "fs";
-import execAsync from "../utils/exec-async";
+import { execFileAsync } from "../utils/exec-async";
 import print from "./print";
 
 jest.mock("fs");
@@ -9,7 +9,7 @@ jest.mock("../utils/exec-async");
 beforeEach(() => {
   // override the implementations
   existsSync.mockImplementation(() => true);
-  execAsync.mockImplementation(() =>
+  execFileAsync.mockImplementation(() =>
     Promise.resolve({ stdout: "request id is myDummyPrinter-15 (1 file(s))" })
   );
 });
@@ -17,7 +17,7 @@ beforeEach(() => {
 afterEach(() => {
   // restore the original implementations
   existsSync.mockRestore();
-  execAsync.mockRestore();
+  execFileAsync.mockRestore();
 });
 
 it("throws when no file is specified.", async () => {
@@ -35,7 +35,7 @@ it("sends the PDF file to the default printer", async () => {
 
   await print(filename);
 
-  expect(execAsync).toHaveBeenCalledWith(`lp '${filename}'`);
+  expect(execFileAsync).toHaveBeenCalledWith("lp", [filename]);
 });
 
 it("sends PDF file to the specific printer", async () => {
@@ -44,7 +44,7 @@ it("sends PDF file to the specific printer", async () => {
 
   await print(filename, printer);
 
-  expect(execAsync).toHaveBeenCalledWith(`lp '${filename}' -d ${printer}`);
+  expect(execFileAsync).toHaveBeenCalledWith("lp", [filename, "-d", printer]);
 });
 
 it("allows to pass other print options", async () => {
@@ -54,9 +54,14 @@ it("allows to pass other print options", async () => {
 
   await print(filename, printer, options);
 
-  expect(execAsync).toHaveBeenCalledWith(
-    `lp '${filename}' -d ${printer} -o landscape -o fit-to-page -o media=A4`
-  );
+  expect(execFileAsync).toHaveBeenCalledWith("lp", [
+    filename,
+    "-d",
+    printer,
+    "-o landscape",
+    "-o fit-to-page",
+    "-o media=A4",
+  ]);
 });
 
 it("allows to pass options but omit the printer name", async () => {
@@ -65,9 +70,12 @@ it("allows to pass options but omit the printer name", async () => {
 
   await print(filename, undefined, options);
 
-  expect(execAsync).toHaveBeenCalledWith(
-    `lp '${filename}' -o landscape -o fit-to-page -o media=A4`
-  );
+  expect(execFileAsync).toHaveBeenCalledWith("lp", [
+    filename,
+    "-o landscape",
+    "-o fit-to-page",
+    "-o media=A4",
+  ]);
 });
 
 it("throws if options passed not as an array", async () => {

@@ -1,6 +1,6 @@
 import fs from "fs";
 import { ExecResponse } from "../types";
-import execAsync from "../utils/exec-async";
+import { execFileAsync } from "../utils/exec-async";
 
 export default async function print(
   file: string,
@@ -10,7 +10,7 @@ export default async function print(
   if (!file) throw "No file specified";
   if (!fs.existsSync(file)) throw "No such file";
 
-  const args = [`'${file}'`];
+  const args = [file];
 
   if (printer) {
     args.push("-d", printer);
@@ -19,8 +19,8 @@ export default async function print(
   if (options) {
     if (!Array.isArray(options)) throw "options should be an array";
 
-    options.forEach((arg) => args.push(arg));
+    args.push(...options);
   }
 
-  return execAsync(`lp ${args.join(" ")}`);
+  return execFileAsync("lp", args);
 }
