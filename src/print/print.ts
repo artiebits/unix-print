@@ -13,7 +13,7 @@ export default async function print(
   const args = [`'${file}'`];
 
   if (printer) {
-    args.push("-d", printer);
+    args.push("-d", `'${printer}'`);
   }
 
   if (options) {
