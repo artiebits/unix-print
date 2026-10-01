@@ -58,9 +58,11 @@ it("return a list of available printers", async () => {
 });
 
 it("return an empty list when there are no printers installed.", async () => {
-  execAsync.mockImplementation(() =>
-    Promise.resolve({ stdout: "lpstat: No destinations added." })
-  );
+  const error = Object.assign(new Error("Command failed: lpstat -lp\nlpstat: No destinations added.\n"), {
+    code: 1,
+  });
+
+  execAsync.mockImplementation(() => Promise.reject(error));
 
   await expect(getPrinters()).resolves.toEqual([]);
 });
